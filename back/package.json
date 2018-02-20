@@ -1,0 +1,16 @@
+{
+  "name": "swirl-react-back",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "josso_t",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "uniqid": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.15.0"
+  }
+}
