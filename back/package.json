@@ -12,5 +12,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.15.0"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
   }
 }
