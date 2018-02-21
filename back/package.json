@@ -2,7 +2,7 @@
   "name": "swirl-react-back",
   "version": "1.0.0",
   "main": "server.js",
-  "author": "josso_t",
+  "author": "Thomas Josso <thomas.josso@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",

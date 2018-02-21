@@ -1,8 +1,8 @@
 {
-  "name": "tp2-enhanced-applications",
+  "name": "swirl-react-front",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Quentin Pre <pre.quentin@gmail.com>",
+  "author": "Thomas Josso <thomas.josso@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --config ./config/webpack/server.js",
