@@ -6,6 +6,20 @@ const resource = require('../../tools/resource');
 
 const expLapse = 3 * 60;
 
+
+exports.verifyUser = function (req) {
+    for (let login in resource.tokens) {
+        if (resource.tokens.hasOwnProperty(login)) {
+            const token = resource.tokens[login].token;
+            const expiration = resource.tokens[login].expiration;
+            if (req.cookies.token === token) {
+                return (expiration - Date.now()) > 0;
+            }
+        }
+    }
+    return false;
+};
+
 //POST /authenticate/
 exports.authenticate = function (req, res) {
     try {
