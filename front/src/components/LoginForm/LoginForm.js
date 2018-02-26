@@ -21,7 +21,7 @@ class LoginForm extends Component {
                 <div className="form-group-collection">
                     <div className="form-group">
                         <label>Email:</label>
-                        <input type="text" name="email" onChange={e => this.setState({login: e.target.value})}
+                        <input type="text" name="login" onChange={e => this.setState({login: e.target.value})}
                                value={login}/>
                     </div>
 

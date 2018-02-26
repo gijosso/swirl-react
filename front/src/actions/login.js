@@ -2,13 +2,13 @@ export const LOGIN_PENDING = 'LOGIN_PENDING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
-export function authenticate(email, password) {
+export function authenticate(login, password) {
     return dispatch => {
         dispatch(setLoginPending(true));
         dispatch(setLoginSuccess(false));
         dispatch(setLoginError(null));
 
-        callLoginApi(email, password, error => {
+        callLoginApi(login, password, error => {
             dispatch(setLoginPending(false));
             if (!error) {
                 dispatch(setLoginSuccess(true));
@@ -43,12 +43,12 @@ function callLoginApi(login, password, callback) {
         headers: {
             'Content-type': 'application/x-www-form-urlencoded'
         },
-        body: "authenticate=" + login + "&password=" + password
+        body: "login=" + login + "&password=" + password
     })
         .then(res => {
             if (res.status === 200) {
                 return callback(null);
             }
-            return callback(new Error('Invalid authenticate/password'))
+            return callback(new Error('Invalid login/password'))
         });
 }
