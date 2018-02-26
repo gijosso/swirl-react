@@ -1,9 +1,12 @@
-// @flow
 import React from 'react';
-import { render } from 'react-dom';
-import Root from './containers/root';
+import ReactDOM from 'react-dom';
+import LoginForm from './components/LoginForm/LoginForm';
+import { Provider } from 'react-redux';
+import store from './store';
 
-render(
-  <Root />,
+ReactDOM.render(
+  <Provider store={store}>
+    <LoginForm />
+  </Provider>,
   document.getElementById('root')
 );

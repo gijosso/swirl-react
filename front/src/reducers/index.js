@@ -1,5 +1,5 @@
-import users from './user';
+import login from './login';
 
-const reducers = { users };
+const reducers = { login };
 
 export default reducers;

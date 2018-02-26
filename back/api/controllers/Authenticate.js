@@ -34,7 +34,7 @@ exports.authenticate = function (req, res) {
                     }
                     else {
                         resource.tokens[login] = { "token": uniqid(), "expiration": Date.now() + (expLapse * 60 * 60)};
-                        res.cookie('token', resource.tokens[login].token, {httpOnly: true});
+                        res.cookie('token', resource.tokens[login].token, {httpOnly: false}); //should be true
                         res.status(201);
                         res.send(response(login, 'authenticate', null));
                     }
