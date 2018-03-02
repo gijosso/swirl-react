@@ -1,9 +1,9 @@
 const User = require('./User');
 const Authenticate = require('./Authenticate');
-const Refresh = require('./Refresh');
+const KeepAlive = require('./KeepAlive');
 
 module.exports = function (app) {
     Authenticate(app);
-    Refresh(app);
+    KeepAlive(app);
     User(app);
 };

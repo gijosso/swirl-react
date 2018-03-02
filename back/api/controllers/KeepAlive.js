@@ -5,8 +5,8 @@ const resource = require('../../tools/resource');
 
 const expLapse = 3 * 60;
 
-//GET /refresh/
-exports.refresh = function (req, res) {
+//GET /keepAlive/
+exports.keepAlive = function (req, res) {
     try {
         const token = req.cookies.token;
         if (token !== undefined) {
@@ -16,25 +16,25 @@ exports.refresh = function (req, res) {
                         if (resource.tokens[login].expiration - Date.now() > 0) {
                             resource.tokens[login].expiration = Date.now() + (expLapse * 60 * 60);
                             res.status(200);
-                            res.send(response(resource.tokens[login].token, 'refresh', null));
+                            res.send(response(resource.tokens[login].token, 'keepAlive', null));
                         }
                         else {
                             res.status(401);
-                            res.send(response(null, 'refresh', 'session expired: user need to log again'));
+                            res.send(response(null, 'keepAlive', 'session expired: user need to log again'));
                         }
                         return;
                     }
                 }
             }
             res.status(403);
-            res.send(response(null, 'refresh', 'invalid session: session forgery ?'));
+            res.send(response(null, 'keepAlive', 'invalid session: session forgery ?'));
         }
         else {
             res.status(400);
-            res.send(response(null, 'refresh', 'no session: user need to be logged'));
+            res.send(response(null, 'keepAlive', 'no session: user need to be logged'));
         }
     } catch (e) {
         res.status(500);
-        res.send(response(null, 'refresh', e.message));
+        res.send(response(null, 'keepAlive', e.message));
     }
 };
