@@ -1,5 +1,5 @@
 # Swirl 2018 - Subject React
-Authors: josso_t
+Author: Thomas Josso <thomas.josso@gmail.com>
 
 
 
@@ -35,7 +35,7 @@ Routes
 ```
 POST    .../authenticate  //Takes "login" and "password" as body parameters, and set a cookie with the session token on sucessful authentication
 
-GET     .../refresh       //Refreshes the expiracy date of the token, server-side
+GET     .../keep-alive    //Refreshes the expiracy date of the token, server-side
 
 GET     .../user          //Authenticated: returns all users
 POST    .../user          //Authenticated: takes "login" and "password" as body parameter, creates an user
@@ -57,9 +57,11 @@ error                       //Error message, null if none
 - ./server.js: server entry point and header configuration
 
 ### Important Note
-The back-end, which is not the real point of the subject, has been done quickly.
-The back-end integrity is not guaranteed (no user field check).
-Message sent need to be non-explicit.
-The JSON file based 'database', made for rookies to avoid setup and connection to real databases engines,
+- JWT should be the way to go.
+- The back-end, which is not the real point of the subject, has been done quickly.
+- The back-end integrity is not guaranteed (no user field check).
+- Message sent need to be non-explicit.
+- The JSON file based 'database', made for rookies to avoid setup and connection to real databases engines,
 may cause some unexpected behaviours, especially on concurrent accesses.
-The code needs a serious refactor too.
+- GraphQL could be a great way to avoid the wanky JSON files.
+- The code needs a serious refactor.
