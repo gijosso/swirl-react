@@ -29,6 +29,7 @@ exports.authenticate = function (req, res) {
             for (let i = 0; i < Number(resource.users.length); i++) {
                 if (resource.users[i].login === login && resource.users[i].password === password) {
                     if (resource.tokens[login] !== undefined && (resource.tokens[login].expiration - Date.now()) > 0) {
+                        res.cookie('token', resource.tokens[login].token, {httpOnly: false}); //should be true
                         res.status(200);
                         res.send(response(login, 'authenticate: already logged', null));
                     }

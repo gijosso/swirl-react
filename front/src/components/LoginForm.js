@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {authenticate} from '../../actions/login';
+import {Redirect} from 'react-router-dom';
+import {authenticate} from '../actions/login';
 
 class LoginForm extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +15,7 @@ class LoginForm extends Component {
 
     render() {
         let {login, password} = this.state;
-        let {isLoginPending, isLoginSuccess, loginError} = this.props;
+        let {isLoginPending, loginSuccess, loginError} = this.props;
         return (
             <form name="loginForm" onSubmit={this.onSubmit}>
                 <div className="form-group-collection">
@@ -36,7 +36,7 @@ class LoginForm extends Component {
 
                 <div className="message">
                     {isLoginPending && <div>Please wait...</div>}
-                    {isLoginSuccess && <div>Success.</div>}
+                    {loginSuccess !== null && <Redirect to="/user"/>}
                     {loginError && <div>{loginError.message}</div>}
                 </div>
             </form>
@@ -56,7 +56,7 @@ class LoginForm extends Component {
 const mapStateToProps = (state) => {
     return {
         isLoginPending: state.login.isLoginPending,
-        isLoginSuccess: state.login.isLoginSuccess,
+        loginSuccess: state.login.loginSuccess,
         loginError: state.login.loginError
     };
 };

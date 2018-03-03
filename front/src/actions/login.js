@@ -5,35 +5,17 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export function authenticate(login, password) {
     return dispatch => {
         dispatch(setLoginPending(true));
-        dispatch(setLoginSuccess(false));
+        dispatch(setLoginSuccess(null));
         dispatch(setLoginError(null));
 
-        callLoginApi(login, password, error => {
+        callLoginApi(login, password, response => {
             dispatch(setLoginPending(false));
-            if (!error) {
-                dispatch(setLoginSuccess(true));
+            if (response.constructor.name !== 'Error') {
+                dispatch(setLoginSuccess(response));
             } else {
-                dispatch(setLoginError(error));
+                dispatch(setLoginError(response));
             }
         });
-    }
-}
-
-function setLoginPending(isLoginPending) {
-    return {
-        type: LOGIN_PENDING, isLoginPending
-    };
-}
-
-function setLoginSuccess(isLoginSuccess) {
-    return {
-        type: LOGIN_SUCCESS, isLoginSuccess
-    };
-}
-
-function setLoginError(loginError) {
-    return {
-        type: LOGIN_FAILURE, loginError
     }
 }
 
@@ -41,14 +23,41 @@ function callLoginApi(login, password, callback) {
     fetch('http://localhost:8080/authenticate', {
         method: 'POST',
         headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
+            'Accept': 'application/json',
+            'Content-type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache'
         },
+        redirect: 'follow',
+        credentials: 'include',
         body: "login=" + login + "&password=" + password
     })
         .then(res => {
-            if (res.status === 200) {
-                return callback(null);
+            if (res.status === 200 || res.status === 201) {
+                res.json().then(body => {
+                    return callback(body.data);
+                });
+                return;
             }
-            return callback(new Error('Invalid login/password'))
+            res.json().then(body => {
+                    return callback(new Error(body.error));
+                })
         });
+}
+
+function setLoginPending(isLoginPending) {
+    return {
+        type: LOGIN_PENDING, isLoginPending: isLoginPending
+    };
+}
+
+function setLoginSuccess(loginSuccess) {
+    return {
+        type: LOGIN_SUCCESS, loginSuccess: loginSuccess
+    };
+}
+
+function setLoginError(loginError) {
+    return {
+        type: LOGIN_FAILURE, loginError: loginError
+    }
 }

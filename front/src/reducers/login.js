@@ -1,7 +1,7 @@
 import { LOGIN_PENDING, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/login'
 
 export default function reducer(state = {
-  isLoginSuccess: false,
+  loginSuccess: null,
   isLoginPending: false,
   loginError: null
 }, action) {
@@ -13,7 +13,7 @@ export default function reducer(state = {
 
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
-        isLoginSuccess: action.isLoginSuccess
+        loginSuccess: action.loginSuccess
       });
 
     case LOGIN_FAILURE:
