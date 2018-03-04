@@ -4,6 +4,7 @@
   "main": "server.js",
   "author": "Thomas Josso <thomas.josso@gmail.com>",
   "license": "MIT",
+  "permissions": [ "cookies", "alarms" , "http://*/*", "https://*/*", "storage"],
   "dependencies": {
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",

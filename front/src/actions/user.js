@@ -65,6 +65,13 @@ export function userRemove(id) {
 function callUserGetApi(callback) {
     fetch('http://localhost:8080/user/', {
         method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache'
+        },
+        redirect: 'follow',
+        credentials: 'include'
     })
         .then(res => {
             if (res.status === 200) {
@@ -83,8 +90,12 @@ function callUserAddApi(login, password, callback) {
     fetch('http://localhost:8080/user', {
         method: 'POST',
         headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
+            'Accept': 'application/json',
+            'Content-type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache'
         },
+        redirect: 'follow',
+        credentials: 'include',
         body: "login=" + login + "&password=" + password
     })
         .then(res => {
@@ -103,12 +114,20 @@ function callUserAddApi(login, password, callback) {
 function callUserDeleteApi(id, callback) {
     fetch('http://localhost:8080/user/' + id, {
         method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache'
+        },
+        redirect: 'follow',
+        credentials: 'include'
     })
         .then(res => {
             if (res.status === 200) {
                 res.json().then(body => {
                     return callback(body.data);
                 });
+                return;
             }
             res.json().then(body => {
                 return callback(new Error(body.error));
@@ -118,19 +137,19 @@ function callUserDeleteApi(id, callback) {
 
 function setUserGetPending(isUserGetPending) {
     return {
-        type: USER_GET_PENDING, isUserGetPending
+        type: USER_GET_PENDING, isUserGetPending: isUserGetPending
     }
 }
 
 function setUserGetSuccess(userGetSuccess) {
     return {
-        type: USER_GET_SUCCESS, userGetSuccess
+        type: USER_GET_SUCCESS, userGetSuccess: userGetSuccess
     }
 }
 
 function setUserGetFailure(userGetFailure) {
     return {
-        type: USER_GET_FAILURE, userGetFailure
+        type: USER_GET_FAILURE, userGetFailure: userGetFailure
     }
 }
 

@@ -1,34 +1,28 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {userGet} from '../actions/user';
+import UserItem from '../components/UserItem'
+import UserAdd from '../components/UserAdd'
 
 class UserList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            users: []
-        };
-    }
-
     componentDidMount() {
         this.props.userGet();
     }
 
     render() {
-        let {users} = this.state;
-        let {isGetPending, getSuccess, getError} = this.props;
+        let {isUserGetPending, userGetSuccess, userGetFailure} = this.props;
         return (
             <div>
                 <ul>
                     {
-                        users.map(user => <li>{user.login}</li>)
+                        userGetSuccess && userGetSuccess.map(user => <UserItem key={user.id} user={user}/>)
                     }
                 </ul>
+                <UserAdd/>
 
                 <div className="message">
-                    {isGetPending && <div>Please wait...</div>}
-                    {getSuccess && <div>{getSuccess}</div>}
-                    {getError && <div>{getError.message}</div>}
+                    {isUserGetPending && <div>Please wait...</div>}
+                    {userGetFailure && <div>{userGetFailure.message}</div>}
                 </div>
             </div>
         )
@@ -37,9 +31,9 @@ class UserList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isGetPending: state.user.isGetPending,
-        getSuccess: state.user.getSuccess,
-        getError: state.user.loginError
+        isUserGetPending: state.user.isUserGetPending,
+        userGetSuccess: state.user.userGetSuccess,
+        userGetFailure: state.user.userGetFailure
     };
 };
 

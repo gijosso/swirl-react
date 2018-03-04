@@ -56,8 +56,8 @@ function setLoginSuccess(loginSuccess) {
     };
 }
 
-function setLoginError(loginError) {
+function setLoginError(loginFailure) {
     return {
-        type: LOGIN_FAILURE, loginError: loginError
+        type: LOGIN_FAILURE, loginFailure: loginFailure
     }
 }

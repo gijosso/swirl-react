@@ -5,6 +5,18 @@ const response = require('../../tools/response');
 const resource = require('../../tools/resource');
 const authenticate = require('./Authenticate');
 
+const userIsIn = function (login) {
+    for (let user in resource.users) {
+        if (resource.users.hasOwnProperty(user)) {
+            const resource_login = resource.users[user].login;
+            if (resource_login === login) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
 //GET /user/
 exports.getAllUser = function (req, res) {
     if (authenticate.verifyUser(req)) {
@@ -23,6 +35,11 @@ exports.createUser = function (req, res) {
             const login = req.body.login;
             const password = req.body.password;
             if (login !== undefined && login !== '' && password !== undefined && password !== '') {
+                if (userIsIn(login)) {
+                    res.status(400);
+                    res.send(response(null, 'create', 'login taken'));
+                    return;
+                }
                 const user = {
                     'id': uniqid(),
                     'login': login,

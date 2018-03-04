@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
-import {authenticate} from '../actions/login';
+import {userAdd} from '../actions/user';
 
-class LoginForm extends Component {
+class UserAdd extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +14,7 @@ class LoginForm extends Component {
 
     render() {
         let {login, password} = this.state;
-        let {isLoginPending, loginSuccess, loginError: loginFailure} = this.props;
+        let {isUserAddPending, userAddSuccess, userAddFailure} = this.props;
         return (
             <form name="loginForm" onSubmit={this.onSubmit}>
                 <div className="form-group-collection">
@@ -32,12 +31,12 @@ class LoginForm extends Component {
                     </div>
                 </div>
 
-                <input type="submit" value="Login"/>
+                <input type="submit" value="Add"/>
 
                 <div className="message">
-                    {isLoginPending && <div>Please wait...</div>}
-                    {loginSuccess !== null && <Redirect to="/user"/>}
-                    {loginFailure && <div>{loginFailure.message}</div>}
+                    {isUserAddPending && <div>Please wait...</div>}
+                    {userAddSuccess !== null && <div>User added !</div>}
+                    {userAddFailure && <div>{userAddFailure.message}</div>}
                 </div>
             </form>
         )
@@ -46,8 +45,9 @@ class LoginForm extends Component {
     onSubmit(e) {
         e.preventDefault();
         let {login, password} = this.state;
-        this.props.authenticate(login, password);
+        this.props.userAdd(login, password);
         this.setState({
+            user: '',
             password: ''
         });
     }
@@ -55,16 +55,16 @@ class LoginForm extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLoginPending: state.login.isLoginPending,
-        loginSuccess: state.login.loginSuccess,
-        loginFailure: state.login.loginFailure
+        isUserAddPending: state.user.isUserAddPending,
+        userAddSuccess: state.user.userAddSuccess,
+        userAddFailure: state.user.userAddFailure
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        authenticate: (email, password) => dispatch(authenticate(email, password))
+        userAdd: (email, password) => dispatch(userAdd(email, password))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(UserAdd);
