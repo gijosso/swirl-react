@@ -8,24 +8,19 @@ class UserDelete extends Component {
     }
 
     render() {
-        let {id} = this.props;
         return (
             <div onClick={() => this._onClick()}>Delete</div>
         )
     }
 
     _onClick() {
-        let {id} = this.props;
+        const {id} = this.props;
         this.props.userRemove(id);
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        isUserRemovePending: state.user.isUserRemovePending,
-        userRemoveSuccess: state.user.userRemoveSuccess,
-        userRemoveFailure: state.user.userRemoveFailure
-    };
+const mapStateToProps = () => {
+    return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

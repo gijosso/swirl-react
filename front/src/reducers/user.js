@@ -7,61 +7,67 @@ import {
     USER_ADD_SUCCESS,
     USER_REMOVE_FAILURE,
     USER_REMOVE_PENDING,
-    USER_REMOVE_SUCCESS, userRemove
+    USER_REMOVE_SUCCESS,
 } from '../actions/user'
 
 export default function reducer(state = {
     isUserGetPending: false,
-    userGetSuccess: null,
-    userGetFailure: null,
+    isUserGetSuccess: false,
+    isUserGetFailure: false,
 
     isUserAddPending: false,
-    userAddSuccess: null,
-    userAddFailure: null,
+    isUserAddSuccess: false,
+    isUserAddFailure: false,
 
-    isRemovePending: false,
-    userRemoveSuccess: null,
-    userRemoveFailure: null
+    isUserRemovePending: false,
+    isUserRemoveSuccess: false,
+    isUserRemoveFailure: false,
+
+    userList: [],
+    userAddedList: [],
+    userRemovedList: [],
+
+    userError: null
 }, action) {
     switch (action.type) {
         case USER_GET_PENDING:
             return Object.assign({}, state, {
-                isUserGetPending: action.isUserGetPending
+                isUserGetPending: true, isUserGetSuccess: false, isUserGetFailure: false
             });
 
         case USER_GET_SUCCESS:
             return Object.assign({}, state, {
-                userGetSuccess: action.userGetSuccess
+                isUserGetPending: false, isUserGetSuccess: true, isUserGetFailure: false, userList: action.userList
             });
 
         case USER_GET_FAILURE:
             return Object.assign({}, state, {
-                userGetFailure: action.userGetFailure
+                isUserGetPending: false, isUserGetSuccess: false, isUserGetFailure: true, userError: action.userError
             });
 
         case USER_ADD_PENDING:
             return Object.assign({}, state, {
-                isUserAddPending: action.isUserAddPending
+                isUserAddPending: true, isUserAddSuccess: false, isUserAddFailure: false
             });
 
         case USER_ADD_SUCCESS:
             return Object.assign({}, state, {
-                userGetSuccess: action.userAddSuccess ? state.userGetSuccess.concat(action.userAddSuccess) : state.userGetSuccess, userAddSuccess: action.userAddSuccess
+                isUserAddPending: false, isUserAddSuccess: true, isUserAddFailure: false, userList: state.userList.concat(action.userAdded), userAddedList: state.userAddedList.concat(action.userAdded)
             });
 
         case USER_ADD_FAILURE:
             return Object.assign({}, state, {
-                userAddFailure: action.userAddFailure
+                isUserAddPending: false, isUserAddSuccess: false, isUserAddFailure: true, userError: action.userError
             });
 
         case USER_REMOVE_PENDING:
             return Object.assign({}, state, {
-                isUserRemovePending: action.isUserRemovePending
+                isUserRemovePending: true, isUserRemoveSuccess: false, isUserRemoveFailure: false
             });
 
         case USER_REMOVE_SUCCESS:
             return Object.assign({}, state, {
-                userGetSuccess: action.userRemoveSuccess ? state.userGetSuccess.filter(user => user.id !== action.userRemoveSuccess.id) : state.userGetSuccess, userRemoveSuccess: action.userRemoveSuccess
+                isUserRemovePending: true, isUserRemoveSuccess: false, isUserRemoveFailure: false, userList: state.userList.filter(user => user.id !== action.userRemoved.id), userRemovedList: state.userRemovedList.concat(action.userRemoved)
             });
 
         case USER_REMOVE_FAILURE:

@@ -4,17 +4,9 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
 export function authenticate(login, password) {
     return dispatch => {
-        dispatch(setLoginPending(true));
-        dispatch(setLoginSuccess(null));
-        dispatch(setLoginError(null));
-
+        dispatch(setLoginPending());
         callLoginApi(login, password, response => {
-            dispatch(setLoginPending(false));
-            if (response.constructor.name !== 'Error') {
-                dispatch(setLoginSuccess(response));
-            } else {
-                dispatch(setLoginError(response));
-            }
+            dispatch(!response.error ? setLoginSuccess(response) : setLoginError(response));
         });
     }
 }
@@ -32,32 +24,26 @@ function callLoginApi(login, password, callback) {
         body: "login=" + login + "&password=" + password
     })
         .then(res => {
-            if (res.status === 200 || res.status === 201) {
-                res.json().then(body => {
-                    return callback(body.data);
-                });
-                return;
-            }
             res.json().then(body => {
-                    return callback(new Error(body.error));
-                })
+                return callback(body);
+            })
         });
 }
 
-function setLoginPending(isLoginPending) {
+function setLoginPending() {
     return {
-        type: LOGIN_PENDING, isLoginPending: isLoginPending
+        type: LOGIN_PENDING
     };
 }
 
-function setLoginSuccess(loginSuccess) {
+function setLoginSuccess(payload) {
     return {
-        type: LOGIN_SUCCESS, loginSuccess: loginSuccess
+        type: LOGIN_SUCCESS, loginUser: payload.data
     };
 }
 
-function setLoginError(loginFailure) {
+function setLoginError(payload) {
     return {
-        type: LOGIN_FAILURE, loginFailure: loginFailure
+        type: LOGIN_FAILURE, loginError: payload.error
     }
 }

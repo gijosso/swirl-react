@@ -2,19 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {BrowserRouter, Switch, Redirect, Route} from 'react-router-dom'
-import LoginForm from './components/LoginForm'
 import store from './store';
-import UserList from './containers/UserList';
-import NotFound from './components/NotFound';
+import NotFound from './containers/notfound';
+import Login from './containers/login';
+import User from './containers/user';
 
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
             <Switch>
-                <Route exact path="/" component={LoginForm}/>
-                <Route exact path="/login" component={LoginForm}/>
-                <Route exact path="/user" component={UserList}/>
+                <Route exact path="/" component={Login}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/user" component={User}/>
                 <Redirect exact from="/" to="/login"/>
                 <Route component={NotFound}/>
             </Switch>

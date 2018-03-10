@@ -10,54 +10,27 @@ export const USER_REMOVE_FAILURE = 'USER_REMOVE_FAILURE';
 
 export function userGet() {
     return dispatch => {
-        dispatch(setUserGetPending(true));
-        dispatch(setUserGetSuccess(null));
-        dispatch(setUserGetFailure(null));
-
+        dispatch(setUserGetPending());
         callUserGetApi(response => {
-            dispatch(setUserGetPending(false));
-            if (response.constructor.name !== 'Error') {
-                dispatch(setUserGetSuccess(response));
-            }
-            else {
-                dispatch(setUserGetFailure(response));
-            }
+            dispatch(!response.error ? setUserGetSuccess(response) : setUserGetFailure(response));
         })
     }
 }
 
 export function userAdd(login, password) {
     return dispatch => {
-        dispatch(setUserAddPending(true));
-        dispatch(setUserAddSuccess(null));
-        dispatch(setUserAddFailure(null));
-
+        dispatch(setUserAddPending());
         callUserAddApi(login, password, response => {
-            dispatch(setUserAddPending(false));
-            if (response.constructor.name !== 'Error') {
-                dispatch(setUserAddSuccess(response));
-            }
-            else {
-                dispatch(setUserAddFailure(response));
-            }
+            dispatch(!response.error ? setUserAddSuccess(response) : setUserAddFailure(response));
         })
     }
 }
 
 export function userRemove(id) {
     return dispatch => {
-        dispatch(setUserRemovePending(true));
-        dispatch(setUserRemoveSuccess(null));
-        dispatch(setUserRemoveFailure(null));
-
+        dispatch(setUserRemovePending());
         callUserDeleteApi(id, response => {
-            dispatch(setUserRemovePending(false));
-            if (response.constructor.name !== 'Error') {
-                dispatch(setUserRemoveSuccess(response));
-            }
-            else {
-                dispatch(setUserRemoveFailure(response));
-            }
+            dispatch(!response.error ? setUserRemoveSuccess(response) : setUserRemoveFailure(response));
         })
     }
 }
@@ -74,14 +47,8 @@ function callUserGetApi(callback) {
         credentials: 'include'
     })
         .then(res => {
-            if (res.status === 200) {
-                res.json().then(body => {
-                    return callback(body.data);
-                });
-                return;
-            }
             res.json().then(body => {
-                return callback(new Error(body.error));
+                return callback(body);
             });
         });
 }
@@ -99,14 +66,8 @@ function callUserAddApi(login, password, callback) {
         body: "login=" + login + "&password=" + password
     })
         .then(res => {
-            if (res.status === 201) {
-                res.json().then(body => {
-                    return callback(body.data);
-                });
-                return;
-            }
             res.json().then(body => {
-                return callback(new Error(body.error));
+                return callback(body);
             });
         });
 }
@@ -123,69 +84,62 @@ function callUserDeleteApi(id, callback) {
         credentials: 'include'
     })
         .then(res => {
-            if (res.status === 200) {
-                res.json().then(body => {
-                    return callback(body.data);
-                });
-                return;
-            }
             res.json().then(body => {
-                return callback(new Error(body.error));
+                return callback(body);
             });
         });
 }
 
-function setUserGetPending(isUserGetPending) {
+function setUserGetPending() {
     return {
-        type: USER_GET_PENDING, isUserGetPending: isUserGetPending
+        type: USER_GET_PENDING
     }
 }
 
-function setUserGetSuccess(userGetSuccess) {
+function setUserGetSuccess(payload) {
     return {
-        type: USER_GET_SUCCESS, userGetSuccess: userGetSuccess
+        type: USER_GET_SUCCESS, userList: payload.data
     }
 }
 
-function setUserGetFailure(userGetFailure) {
+function setUserGetFailure(payload) {
     return {
-        type: USER_GET_FAILURE, userGetFailure: userGetFailure
+        type: USER_GET_FAILURE, userError: payload.error
     }
 }
 
-function setUserAddPending(isUserAddPending) {
+function setUserAddPending() {
     return {
-        type: USER_ADD_PENDING, isUserAddPending
+        type: USER_ADD_PENDING
     }
 }
 
-function setUserAddSuccess(userAddSuccess) {
+function setUserAddSuccess(payload) {
     return {
-        type: USER_ADD_SUCCESS, userAddSuccess
+        type: USER_ADD_SUCCESS, userAdded: payload.data
     }
 }
 
-function setUserAddFailure(userAddFailure) {
+function setUserAddFailure(payload) {
     return {
-        type: USER_ADD_FAILURE, userAddFailure
+        type: USER_ADD_FAILURE, userError: payload.error
     }
 }
 
-function setUserRemovePending(isUserRemovePending) {
+function setUserRemovePending() {
     return {
-        type: USER_REMOVE_PENDING, isUserRemovePending
+        type: USER_REMOVE_PENDING
     }
 }
 
-function setUserRemoveSuccess(userRemoveSuccess) {
+function setUserRemoveSuccess(payload) {
     return {
-        type: USER_REMOVE_SUCCESS, userRemoveSuccess
+        type: USER_REMOVE_SUCCESS, userRemoved: payload.data
     }
 }
 
-function setUserRemoveFailure(userRemoveFailure) {
+function setUserRemoveFailure(payload) {
     return {
-        type: USER_REMOVE_FAILURE, userRemoveFailure
+        type: USER_REMOVE_FAILURE, userError: payload.error
     }
 }
-

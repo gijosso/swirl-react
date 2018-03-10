@@ -1,27 +1,30 @@
-import { LOGIN_PENDING, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/login'
+import {LOGIN_FAILURE, LOGIN_PENDING, LOGIN_SUCCESS} from '../actions/login'
 
 export default function reducer(state = {
-  loginSuccess: null,
-  isLoginPending: false,
-  loginError: null
+    isLoginPending: false,
+    isLoginSuccess: false,
+    isLoginFailure: false,
+    loginError: null,
+    loginUser: null,
+
 }, action) {
-  switch (action.type) {
-    case LOGIN_PENDING:
-      return Object.assign({}, state, {
-        isLoginPending: action.isLoginPending
-      });
+    switch (action.type) {
+        case LOGIN_PENDING:
+            return Object.assign({}, state, {
+                isLoginPending: true, isLoginSuccess: false, isLoginFailure: false, loginError: null, loginUser: null
+            });
 
-    case LOGIN_SUCCESS:
-      return Object.assign({}, state, {
-        loginSuccess: action.loginSuccess
-      });
+        case LOGIN_SUCCESS:
+            return Object.assign({}, state, {
+                isLoginPending: false, isLoginSuccess: true, isLoginFailure: false, loginError: null, loginUser: action.loginUser
+            });
 
-    case LOGIN_FAILURE:
-      return Object.assign({}, state, {
-        loginError: action.loginError
-      });
+        case LOGIN_FAILURE:
+            return Object.assign({}, state, {
+                isLoginPending: false, isLoginSuccess: false, isLoginFailure: true, loginError: action.loginError, loginUser: null
+            });
 
-    default:
-      return state;
-  }
+        default:
+            return state;
+    }
 }
