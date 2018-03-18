@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {userAdd} from '../actions/user';
 
-class UserAdd extends Component {
+export default class UserAdd extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -45,15 +43,3 @@ class UserAdd extends Component {
         });
     }
 }
-
-const mapStateToProps = () => {
-    return {};
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        userAdd: (email, password) => dispatch(userAdd(email, password))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserAdd);

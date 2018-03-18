@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import UserDelete from './userdelete'
+import UserDelete from '../../containers/user/user-delete-container'
 
 class UserItem extends Component {
     render() {
