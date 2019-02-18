@@ -16,7 +16,7 @@ you want to learn as much as possible (and if you are not struggling to much ðŸ¤
 Why going for React after discovering Vue for the previous subject ?
 Well the end goal of the two libraries are pretty much the same but:
 - React has a vivid ecosystem, making it appropriate for a large amount of projects
-(``redux``, ``thunk``, ``xstate`` to name a few) and especially with React Native
+(``redux``, ``thunk``, ``xstate`` to name a few) and especially lately with React Native
 - I think it is important to see what are the pros and cons of the technologies
 you are using
 - adapt to the market (have a look at ``https://www.wappalyzer.com/`` ðŸ˜‰	)
